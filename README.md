@@ -1,4 +1,5 @@
 Space-Invaders
 ==============
 
-Space Invaders Repository
+Space Invaders with Pixi.js
+Demo here : http://dev.tibz.net/space-invaders-pixi/
