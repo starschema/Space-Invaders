@@ -10,6 +10,7 @@ body {background-color: #000000;}
 #titleHighScore {position:absolute;right:45px;top:60px;}
 #score {position:absolute;left:57px;top:85px;}
 #highScore {position:absolute;right:90px;top:85px;}
+#userField {position: absolute;  top: 40px;  left: 45px;}
 
 #pixi {/*position:absolute;bottom:30px;right:30px;*/width:100px;margin:0 auto;margin-top:30px;}
 #pixi #txt {font-family:"Arial";color:#FFF;font-size:10px;text-align: center;width:100px;}
