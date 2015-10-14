@@ -199,7 +199,7 @@ $(document).ready(init);
 
 function init() {
 
-    Highscore.init("http://10.99.0.22:8866");
+    Highscore.init("http://highscore.starschema.net");
 
     // PIXI
     stage = new PIXI.Stage(game.BACKGROUND_COLOR);
@@ -334,7 +334,11 @@ function highscoreOnStart() {
         }
     });
     Highscore.getScores("space-invaders", function(response){
-        $("#titleHighScore").html("HI SCORE &rsaquo;" + response[response.length - 1].score + "&lsaquo;");
+        if (_.isArray(response) && response.length > 0) {
+            $("#titleHighScore").html("HI SCORE &rsaquo;" + response[response.length - 1].score + "&lsaquo;");
+        } else {
+            $("#titleHighScore").html("HI SCORE &rsaquo;" + "unknown" + "&lsaquo;");
+        }
     });
 }
 
