@@ -335,7 +335,7 @@ function highscoreOnStart() {
     });
     Highscore.getScores("space-invaders", function(response){
         if (_.isArray(response) && response.length > 0) {
-            $("#titleHighScore").html("HI SCORE &rsaquo;" + response[response.length - 1].score + "&lsaquo;");
+            $("#titleHighScore").html("HI SCORE &rsaquo;" + _.last(response).score + "&lsaquo;");
         } else {
             $("#titleHighScore").html("HI SCORE &rsaquo;" + "unknown" + "&lsaquo;");
         }
@@ -850,7 +850,6 @@ function checkCollisionS() {
                 updateLife();
                 if (game.LIFE == 0) gameOver();
                 break;
-
             }
 
         }
@@ -1150,16 +1149,16 @@ function gameOver() {
 function showHighScores() {
     $("#highscores").fadeIn(300);
     $("#score-table").empty();
+    $("#user").prop('disabled', false);
     $(window).bind("keydown", reStart);
 
     Highscore.getScores("space-invaders", function(scores){
-        table = document.createElement("table");
         topScore = _.last(scores, 10)
         while (topScore.length > 0) {
             score = topScore.pop();
             var name = $("<td></td>").text(score["user-name"]);
             var value = $("<td></td>").text(score["score"]);
-            $("#score-table").append($("<tr></tr>t").append(name, value));
+            $("#score-table").append($("<tr></tr>").append(name, value));
         }
     });
 }
@@ -1173,7 +1172,6 @@ function reStart(e) {
 
         $(window).unbind("keydown", reStart);
         $("#highscores").hide();
-        $("#highscores #list").html("");
         // restart
 
         highscoreOnStart();

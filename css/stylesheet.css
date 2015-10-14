@@ -12,7 +12,7 @@ body {background-color: #000000;}
 #highScore {position:absolute;right:90px;top:85px;}
 #userField {position: absolute;  top: 30px;  left: 45px;}
 #user{background-color: black; color: white;  font-size: 16px; border: 0px;}
-#list{top: 150px;left: 35px;position: absolute;}
+#list{top: 140px;left: 35px;position: absolute;}
 #score-table td {padding-left:10px;}
 
 #pixi {/*position:absolute;bottom:30px;right:30px;*/width:100px;margin:0 auto;margin-top:30px;}
