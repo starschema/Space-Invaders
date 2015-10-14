@@ -199,17 +199,7 @@ $(document).ready(init);
 
 function init() {
 
-    // Recupere le HighScore
-    var scoreCollectionTemp = new app.Collections.ScoreCollection();
-    scoreCollectionTemp.fetch({
-        success: function () {
-
-            $("#highScore").html(convertScore(scoreCollectionTemp.models[0].get("score")));
-            $("#titleHighScore").html("HI SCORE &rsaquo;" + scoreCollectionTemp.models[0].get("pseudo") + "&lsaquo;");
-            scoreToBeInTop10 = scoreCollectionTemp.models[9].get("score");
-
-        }
-    });
+    Highscore.init("http://10.99.0.22:8866");
 
     // PIXI
     stage = new PIXI.Stage(game.BACKGROUND_COLOR);
@@ -229,9 +219,6 @@ function init() {
 
     //begin load
     loader.load();
-
-    Highscore.init("http://10.99.0.22:8866");
-
 }
 
 function loading(e) {
@@ -329,17 +316,26 @@ function keyDownStart(e) {
     if (e.keyCode == 13) {
         $(document).unbind("keyup", keyDownStart);
         $("#startGame").fadeOut(300, showLevel);
-        $("#user").prop('disabled', true);
-        var user = $("#user").val();
-        if (user && user !== "") {
-            Highscore.startGame("space-invaders", user, function (err) {
-                if (err) {
-                    console.log("Error happened:", err);
-                }
-            });
-        }
+        highscoreOnStart();
     }
 
+}
+
+function highscoreOnStart() {
+    $("#user").prop('disabled', true);
+    var user = $("#user").val();
+    if (!user || user === "") {
+        user = "DEFAULT_USER"
+        $("#user").val(user);
+    }
+    Highscore.startGame("space-invaders", user, function (err) {
+        if (err) {
+            console.log("Error happened:", err);
+        }
+    });
+    Highscore.getScores("space-invaders", function(response){
+        $("#titleHighScore").html("HI SCORE &rsaquo;" + response[response.length - 1].score + "&lsaquo;");
+    });
 }
 
 function showLevel() {
@@ -434,9 +430,14 @@ function keydown(e) {
 
 function keyup(e) {
 
-    if (e.keyCode == 37) keycode.LEFT = false;
-    if (e.keyCode == 39) keycode.RIGHT = false;
-
+    if (e.keyCode == 37) {
+        Highscore.eventHappened("move", game.SCORE);
+        keycode.LEFT = false;
+    }
+    if (e.keyCode == 39) {
+        Highscore.eventHappened("move", game.SCORE);
+        keycode.RIGHT = false;
+    }
 }
 
 function enableFire() {
@@ -590,14 +591,10 @@ function checkKeyboard() {
     if (spaceship) {
 
         if (keycode.LEFT) {
-            console.log("spaceship moved");
-            Highscore.eventHappened("move", game.SCORE);
             if (spaceship.position.x > 0) spaceship.position.x -= game.SPACESHIP_SPEED;
             else spaceship.position.x = 0;
         }
         if (keycode.RIGHT) {
-            console.log("spaceship moved");
-            Highscore.eventHappened("move", game.SCORE);
             if (spaceship.position.x < renderer.width - spaceship.texture.width) spaceship.position.x += game.SPACESHIP_SPEED;
             else spaceship.position.x = renderer.width - spaceship.texture.width;
         }
@@ -816,12 +813,8 @@ function checkCollisionP() {
 
 }
 
+//Check when spaceship hit by bullet
 function checkCollisionS() {
-
-
-    // Collision check entre Bullet Ennemy & Spaceship
-
-
     var items = quadBulletP.retrieve({
         x: spaceship.position.x,
         y: spaceship.position.y,
@@ -1145,53 +1138,30 @@ function nextLevel() {
 }
 
 function gameOver() {
-
     onEnterFrame = false;
     clearGame();
-    startScreen();
-    //if (game.SCORE > scoreToBeInTop10) $("#gameOver").fadeIn(300).delay(2000).fadeOut(200, recordName);
-    //else $("#gameOver").fadeIn(300).delay(2000).fadeOut(200, showHighScores);
-
-
-}
-
-function recordName() {
-
-    // customNameView
-    var customNameView = new app.Views.CustomNameView();
-    customNameView.setScore(game.SCORE);
-    $("#saveScore").append(customNameView.render().el);
-    $("#saveScore").show();
-    $("#saveGame").show();
-    customNameView.on("complete", showHighScores);
-
-
+    showHighScores();
 }
 
 function showHighScores() {
-
-    $("#saveScore").hide();
-    $("#saveGame").hide();
-
     $("#highscores").fadeIn(300);
-
-    // Collection HighScore
-    var scoreCollection = new app.Collections.ScoreCollection();
-    scoreCollection.fetch({
-        success: function () {
-            var highScoresView = new app.Views.HighScoresView({collection: scoreCollection});
-            $("#highscores #list").append(highScoresView.render().el);
-        }
-    });
-
+    $("#score-table").empty();
     $(window).bind("keydown", reStart);
 
+    Highscore.getScores("space-invaders", function(scores){
+        table = document.createElement("table");
+        topScore = _.last(scores, 10)
+        while (topScore.length > 0) {
+            score = topScore.pop();
+            var name = $("<td></td>").text(score["user-name"]);
+            var value = $("<td></td>").text(score["score"]);
+            $("#score-table").append($("<tr></tr>t").append(name, value));
+        }
+    });
 }
 
 function reStart(e) {
-
     if (e.keyCode == 13) {
-
         game.LIFE = 3;
         game.LEVEL = 1;
         game.SCORE = 0;
@@ -1202,19 +1172,12 @@ function reStart(e) {
         $("#highscores #list").html("");
         // restart
 
-        Highscore.startGame("space-invaders", user, function (err) {
-            if (err) {
-                console.log("Error happened:", err);
-            }
-        });
+        highscoreOnStart();
 
         updateLife();
         renderer.render(stage);
         showLevel();
-
-
     }
-
 }
 
 function animate() {
@@ -1277,6 +1240,5 @@ function random(nMinimum, nMaximum, nRoundToInterval) {
 }
 
 function floor(nNumber, nRoundToInterval) {
-
     return Math.floor(nNumber / nRoundToInterval) * nRoundToInterval;
 }

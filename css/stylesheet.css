@@ -10,7 +10,10 @@ body {background-color: #000000;}
 #titleHighScore {position:absolute;right:45px;top:60px;}
 #score {position:absolute;left:57px;top:85px;}
 #highScore {position:absolute;right:90px;top:85px;}
-#userField {position: absolute;  top: 40px;  left: 45px;}
+#userField {position: absolute;  top: 30px;  left: 45px;}
+#user{background-color: black; color: white;  font-size: 16px; border: 0px;}
+#list{top: 150px;left: 35px;position: absolute;}
+#score-table td {padding-left:10px;}
 
 #pixi {/*position:absolute;bottom:30px;right:30px;*/width:100px;margin:0 auto;margin-top:30px;}
 #pixi #txt {font-family:"Arial";color:#FFF;font-size:10px;text-align: center;width:100px;}
@@ -36,7 +39,7 @@ body {background-color: #000000;}
 #saveScore .letterItem {display:inline-block;}
 #saveScore input {width:15px;background-color:#000;color:#FFF;border:none;/*border-bottom:1px solid #04dd08;*/padding:5px;padding-left:10px;font-size: 20px;margin-right:5px;}
 
-#highscores {width:500px;height:600px;position:absolute;color:#FFF;font-size:16px;z-index: 11;background-color:#000;display:none;}
+#highscores {width:500px;height:540px;top:60px;position:absolute;color:#FFF;font-size:16px;z-index: 11;background-color:#000;display:none;}
 
 #titleHighScores {position:absolute;left:45px;top:60px;}
 
