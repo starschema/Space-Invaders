@@ -9,19 +9,13 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "space invaders Regular";
 }
 
 body {
-    background-color: white;
-}
-
-#container {
-    width: 500px;
-    height: 600px;
-    margin: 0 auto;
-    margin-top: 30px;
-    position: relative;
+    font-family: sans-serif;
+    margin: 0px auto;
+    width: 1280px;
+    height: 720px;
 }
 
 #info {
@@ -196,7 +190,7 @@ body {
 #highscores {
     width: 500px;
     height: 540px;
-    top: 60px;
+    top: 140px;
     position: absolute;
     color: #FFF;
     font-size: 16px;
@@ -244,25 +238,68 @@ body {
     margin-top: 150px;
 }
 
-#title-bar {
-    margin: 10px 100px;
-}
-
-#title-bar * {
-    display: inline-block;
-}
-
 #title {
-    margin: 0px 150px;
-    color: black;
+    float:left;
+    margin-left: 250px;
+    font-size: 30px;
+    font-family:  Montserrat, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    height: 40px;
+}
+#title-first {
+    color: #3fa9f5;
+}
+#title-second {
+    color: #083f82;
+    float:right;
+    margin-right: 355px;
 }
 
 #container {
-    margin: 0px 69px;
-    float: left;
+    background-image: url("../images/bg.png");
+    font-family: "space invaders Regular";
+    background-size: 100%;
+    height: 100%;
+    padding: 40px 40px;
+}
+
+#user {
+    font-family: "space invaders Regular";
 }
 
 #tableauViz {
-    margin: 0px 20px;
+    border-radius: 15px;
+    border: 1px white solid;
+    padding: 5px;
+    background-color: white;
     float: right;
+}
+
+#game-view {
+    float: left;
+}
+
+#plane {
+    width: 150px;
+    height: 150px;
+    float: left;
+}
+
+#title-bar {
+    height: 40px;
+    padding: 20px 0px;
+}
+
+#virtdb {
+    float: left;
+}
+
+#starschema {
+    float: right;
+}
+
+#container canvas {
+    border-radius: 10px;
+    border: 1px black solid;
 }

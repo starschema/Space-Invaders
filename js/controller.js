@@ -205,7 +205,7 @@ function init() {
     stage = new PIXI.Stage(game.BACKGROUND_COLOR);
     renderer = PIXI.autoDetectRenderer(game.STAGE_WIDTH, game.STAGE_HEIGHT);
 
-    $("#container").append(renderer.view);
+    $("#game-view").append(renderer.view);
 
     // create an array of assets to load
     var assetsToLoader = ["assets/sprites.json"];

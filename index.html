@@ -16,12 +16,16 @@
     <!-- FIN META FACEBOOK -->
 
     <link rel="stylesheet" href="css/stylesheet.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="title-bar">
-    <img height="40" src="http://www.virtdb.com/images/virtdb_logobig.png" >
-    <h1 id="title">#Data15 Tableau</h1>
-    <img height="40" src="http://static.starschema.net/wp-content/uploads/2013/11/17112515/logo_v-300x122.png" >
+    <img id="virtdb" height="40" src="http://www.virtdb.com/images/virtdb_logobig.png">
+    <div id="title">
+        <span id="title-first">#Data15</span>
+        <span id="title-second">Tableau</span>
+    </div>
+    <img id="starschema" height="40" src="http://static.starschema.net/wp-content/uploads/2013/11/17112515/logo_v-300x122.png">
 </div>
 <div id="container">
     <div id="info">
@@ -57,8 +61,11 @@
         <div id="greenLine3"></div>
     </div>
 
+    <div id="game-view"></div>
+    <div id="tableauViz"></div>
+    <img id="plane" src="images/paperplane.png" />
+
 </div>
-<div id="tableauViz"></div>
 
 <script type="text/template" id="inputTemplate">
     <input type="text" value="<%=letter%>" maxlength="1" readonly="readonly">
