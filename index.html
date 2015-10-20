@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
+<div id="title-bar">
+    <img height="40" src="http://www.virtdb.com/images/virtdb_logobig.png" >
+    <h1 id="title">#Data15 Tableau</h1>
+    <img height="40" src="http://static.starschema.net/wp-content/uploads/2013/11/17112515/logo_v-300x122.png" >
+</div>
 <div id="container">
     <div id="info">
         <div id="userField">
@@ -53,10 +58,7 @@
     </div>
 
 </div>
-<div id="pixi">
-    <div id="txt">Create with :</div>
-    <div id="logo"><a href="http://www.pixijs.com/" target="blank"></a></div>
-</div>
+<div id="tableauViz"></div>
 
 <script type="text/template" id="inputTemplate">
     <input type="text" value="<%=letter%>" maxlength="1" readonly="readonly">
@@ -74,10 +76,35 @@
 <script src="js/lib/TweenLite.min.js"></script>
 <script src="js/lib/backbone-min.js"></script>
 <script src="js/lib/quadTree.min.js"></script>
-<script src="js/lib/index.js"></script>
 <script src="js/classes.js"></script>
 <script src="js/customName.js"></script>
 <script src="js/highScores.js"></script>
 <script src="js/controller.js"></script>
+<script src="https://rawgit.com/starschema/highscore-client/master/static/index.js"></script>
+<script type="text/javascript" src="http://public.tableau.com/javascripts/api/tableau-2.0.1.min.js"></script>
+<script>
+    function initializeViz() {
+        var placeholderDiv = document.getElementById("tableauViz");
+        var url = "http://54.203.245.18/views/Cnake/Snake?Game%20Type%20Param=space-invaders&:display_spinner=no&:display_overlay=false";
+        var options = {
+            width: 600,
+            height: 600,
+            hideTabs: true,
+            hideToolbar: true,
+            onFirstInteractive: function () {
+                workbook = viz.getWorkbook();
+                activeSheet = workbook.getActiveSheet();
+                var vizUpdater = setInterval(myTimer, 10000);
+
+                function myTimer() {
+                    workbook.changeParameterValueAsync("Game ID", Highscore.gameId());
+                    viz.refreshDataAsync();
+                }
+            }
+        };
+        viz = new tableau.Viz(placeholderDiv, url, options);
+    }
+    $(document).ready(initializeViz);
+</script>
 </body>
 </html>

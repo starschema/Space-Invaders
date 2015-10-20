@@ -328,9 +328,11 @@ function highscoreOnStart() {
         user = "DEFAULT_USER"
         $("#user").val(user);
     }
-    Highscore.startGame("space-invaders", user, function (err) {
-        if (err) {
+    Highscore.startGame("space-invaders", user, function (err, gameId) {
+        if (err === null) {
             console.log("Error happened:", err);
+        } else {
+            workbook.changeParameterValueAsync("Game ID", gameId);
         }
     });
     Highscore.getScores("space-invaders", function(response){
